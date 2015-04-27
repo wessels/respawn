@@ -1,4 +1,3 @@
-BASEURL=http://www.life-gone-hazy.com/src/respawn/
 PROG=respawn
 CFLAGS=-Wall
 
@@ -15,7 +14,3 @@ clean:
 	rm -f $(PROG)
 	rm -f $(PROG).o
 	rm -f $(PROG).core
-
-fetch:
-	fetch ${BASEURL}/Makefile
-	fetch ${BASEURL}/respawn.c
