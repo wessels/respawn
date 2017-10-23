@@ -64,6 +64,8 @@ write_pid(const char *p)
 	fprintf(pf, "%d\n", (int)getpid());
 	atexit(unlink_pid);
 	fclose(pf);
+    } else {
+	syslog(LOG_ERR, "%s: %s", pidfile, strerror(errno));
     }
 }
 
