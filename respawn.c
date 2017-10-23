@@ -55,7 +55,7 @@ write_pid(const char *p)
 	strtok(tb, "\r\n");
 	pid = strtol(tb, NULL, 10);
 	if (pid > 0 && 0 == kill(pid, 0)) {
-	    syslog(LOG_NOTICE, "Process %d already running\n", pid);
+	    syslog(LOG_NOTICE, "Process %d already running", pid);
 	    exit(0);
 	}
     }
@@ -173,7 +173,7 @@ main(int argc, char *argv[])
 
     fd = open("/dev/null", O_RDWR);
     if (fd < 0)
-	syslog(LOG_ERR, "/dev/null: %s\n", strerror(errno));
+	syslog(LOG_ERR, "/dev/null: %s", strerror(errno));
     else {
 	dup2(fd, 0);
 	dup2(fd, 1);
@@ -187,9 +187,9 @@ main(int argc, char *argv[])
 	    /* child */
 	    if (output) {
 		fd = open(output, O_CREAT | O_WRONLY | O_APPEND, 0660);
-		syslog(LOG_ERR, "output is %s\n", output);
+		syslog(LOG_ERR, "output is %s", output);
 		if (fd < 0)
-		    syslog(LOG_ERR, "output: %s\n", strerror(errno));
+		    syslog(LOG_ERR, "output: %s", strerror(errno));
 		else {
 		    dup2(fd, 1);
 		    dup2(fd, 2);
@@ -225,7 +225,7 @@ main(int argc, char *argv[])
 
 	if (stop - start < failtime) {
 	    fails++;
-	    syslog(LOG_ALERT, "child process ran for %d seconds, fails=%d\n", stop-start,fails);
+	    syslog(LOG_ALERT, "child process ran for %d seconds, fails=%d", stop-start,fails);
 	} else
 	    fails = 0;
 	if (fails == failcount) {
