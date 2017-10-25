@@ -35,7 +35,7 @@ unlink_pid(void)
 }
 
 void
-write_pid(const char *p)
+read_write_pid(const char *p, int do_write)
 {
     FILE *pf;
     char tb[128];
@@ -59,6 +59,8 @@ write_pid(const char *p)
 	    exit(0);
 	}
     }
+    if (0 == do_write)
+	return;
     pf = fopen(pidfile, "w");
     if (NULL != pf) {
 	fprintf(pf, "%d\n", (int)getpid());
@@ -150,6 +152,8 @@ main(int argc, char *argv[])
     argc -= optind;
     argv += optind;
 
+    read_write_pid(argv[0], 0);
+
     if (userid) {
 	struct passwd *p = getpwnam(userid);
 	if (NULL == p)
@@ -196,7 +200,7 @@ main(int argc, char *argv[])
 		    close(fd);
 		}
 	    }
-	    write_pid(argv[0]);
+	    read_write_pid(argv[0], 1);
 	    if (uid > 0) {
 		syslog(LOG_NOTICE, "changing to user %s/%d", userid, uid);
 		setuid(uid);
